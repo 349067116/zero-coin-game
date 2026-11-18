@@ -11,11 +11,11 @@ public enum Key {
     W(KeyCode.W),
     A(KeyCode.A),
     S(KeyCode.S),
-    D(KeyCode.D),
+    E(KeyCode.E),
     SPACE(KeyCode.SPACE),
     ENTER(KeyCode.ENTER),
-    ESCAPE(KeyCode.ESCAPE),
-    R(KeyCode.R);
+    ESCAPE(KeyCode.ESCAPE);
+
 
     private final KeyCode keyCode;
 
