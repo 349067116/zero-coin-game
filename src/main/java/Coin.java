@@ -1,6 +1,7 @@
 import zero.Color;
 import zero.GameApp;
 
+
 public class Coin {
     private final double x;
     private final double y;
