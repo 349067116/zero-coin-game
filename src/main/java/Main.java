@@ -7,7 +7,8 @@ import zero.ui.Row;
 
 public class Main extends GameApp {
     private Player player;
-    private Coin coin;
+    private Coin[] coins;
+    private boolean won;
     private int points;
     private Label scoreLabel;
     private Label message;
@@ -27,7 +28,11 @@ public class Main extends GameApp {
 
     public void restart() {
         player = new Player(40, 180);
-        coin = new Coin(220, 180);
+        coins = new Coin[] {
+            new Coin(220, 180), new Coin(420, 80), new Coin(540, 300)
+        };
+        won = false;
+        message.setText("Collect all " + coins.length + " coins.");
         points = 0;
         scoreLabel.setText("Score: 0");
         message.setText("Collect the gold square.");
@@ -35,6 +40,7 @@ public class Main extends GameApp {
     }
 
     @Override public void update(double seconds) {
+         if (won) return;
         int horizontal = 0;
         int vertical = 0;
         if (keyDown(Key.A)) horizontal--;
@@ -42,10 +48,16 @@ public class Main extends GameApp {
         if (keyDown(Key.W)) vertical--;
         if (keyDown(Key.S)) vertical++;
         player.update(horizontal, vertical, seconds, width(), height());
-        if (!coin.isCollected() && coin.touches(player)) {
-            coin.collect();
-            points++;
-            scoreLabel.setText("Score: " + points);
+        for (Coin each : coins) {
+            if (!each.isCollected() && each.touches(player)) {
+                each.collect();
+                points++;
+                scoreLabel.setText("Score: " + points);
+            }
+        }
+        if (points == coins.length) {
+            won = true;
+            message.setText("You win! Choose Restart.");
         }
     }
 
@@ -55,7 +67,7 @@ public class Main extends GameApp {
         textSize(20);
         text("Click the canvas, then use WASE to move.", 20, 30);
         text("Score: " + points, 20, 60);
-        coin.draw(this);
+        for (Coin each : coins) each.draw(this);
         player.draw(this);
     }
 
